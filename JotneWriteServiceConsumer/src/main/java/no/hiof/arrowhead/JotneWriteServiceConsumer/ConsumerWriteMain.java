@@ -57,22 +57,49 @@ public class ConsumerWriteMain implements ApplicationRunner {
 		orchestrationResult = getWriteServiceInfo();
 
 		logger.info("Test Writing Service");
-		String testmsg = "{\r\n" + "	\"id\": \"13483027\",\r\n" + "	\"sensorType\": \"RUUVi\",\r\n"
-				+ "	\"sensorData\": [\r\n" + "		{\r\n" + "			\"timestamp\": \"1586944294\",\r\n"
-				+ "			\"sensorMeasurment\": [\r\n" + "				{\r\n"
-				+ "					\"measurement\": \"ax\",\r\n" + "					\"value\": \"390\"\r\n"
-				+ "				},\r\n" + "				{\r\n" + "					\"measurement\": \"ay\",\r\n"
-				+ "					\"value\": \"-935\"\r\n" + "				},\r\n" + "				{\r\n"
-				+ "					\"measurement\": \"az\",\r\n" + "					\"value\": \"-29\"\r\n"
-				+ "				},\r\n" + "				{\r\n" + "					\"measurement\": \"battery\",\r\n"
-				+ "					\"value\": \"2977\"\r\n" + "				},\r\n" + "				{\r\n"
-				+ "					\"measurement\": \"humidity\",\r\n" + "					\"value\": \"48\"\r\n"
-				+ "				},\r\n" + "				{\r\n" + "					\"measurement\": \"pressure\",\r\n"
-				+ "					\"value\": \"99555\"\r\n" + "				},\r\n" + "				{\r\n"
-				+ "					\"measurement\": \"rssi\",\r\n" + "					\"value\": \"-93\"\r\n"
-				+ "				},\r\n" + "				{\r\n"
-				+ "					\"measurement\": \"temperature\",\r\n" + "					\"value\": \"1420\"\r\n"
-				+ "				}\r\n" + "			]\r\n" + "		}\r\n" + "\r\n" + "	]\r\n" + "}";
+		String testmsg = "{\r\n" + 
+				"	\"id\": \"13483027\",\r\n" + 
+				"	\"SensorType\": \"RUUVi\",\r\n" + 
+				"	\"SensorData\": [\r\n" + 
+				"		{\r\n" + 
+				"			\"timestamp\": \"1586944294\",\r\n" + 
+				"			\"SensorMeasurment\": [\r\n" + 
+				"				{\r\n" + 
+				"					\"Measurement\": \"ax\",\r\n" + 
+				"					\"value\": \"390\"\r\n" + 
+				"				},\r\n" + 
+				"				{\r\n" + 
+				"					\"Measurement\": \"ay\",\r\n" + 
+				"					\"value\": \"-935\"\r\n" + 
+				"				},\r\n" + 
+				"				{\r\n" + 
+				"					\"Measurement\": \"az\",\r\n" + 
+				"					\"value\": \"-29\"\r\n" + 
+				"				},\r\n" + 
+				"				{\r\n" + 
+				"					\"Measurement\": \"battery\",\r\n" + 
+				"					\"value\": \"2977\"\r\n" + 
+				"				},\r\n" + 
+				"				{\r\n" + 
+				"					\"Measurement\": \"humidity\",\r\n" + 
+				"					\"value\": \"48\"\r\n" + 
+				"				},\r\n" + 
+				"				{\r\n" + 
+				"					\"Measurement\": \"pressure\",\r\n" + 
+				"					\"value\": \"99555\"\r\n" + 
+				"				},\r\n" + 
+				"				{\r\n" + 
+				"					\"Measurement\": \"rssi\",\r\n" + 
+				"					\"value\": \"-93\"\r\n" + 
+				"				},\r\n" + 
+				"				{\r\n" + 
+				"					\"Measurement\": \"temperature\",\r\n" + 
+				"					\"value\": \"1420\"\r\n" + 
+				"				}\r\n" + 
+				"			]\r\n" + 
+				"		}\r\n" + 
+				"	]\r\n" + 
+				"}";
 
 		// logger.info(marker, message, p0, p1, p2, p3, p4, p5, p6, p7);
 		String address = "/Bike/13483027/urn:rdl:Bike:point info";

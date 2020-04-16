@@ -1,15 +1,22 @@
 package no.hiof.tellu.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 public class SensorMeasurmentDTO {
 
-	private String measurement;
+	@JsonProperty("Measurement")
+	private String Measurement;
+	
 	private String value;
 	
 	public String getMeasurement() {
-		return measurement;
+		return Measurement;
 	}
+	
+	@JsonSetter("Measurement")
 	public void setMeasurement(String measurement) {
-		this.measurement = measurement;
+		this.Measurement = measurement;
 	}
 	public String getValue() {
 		return value;
@@ -24,14 +31,15 @@ public class SensorMeasurmentDTO {
 	}
 	
 	public SensorMeasurmentDTO(String measurement, String value) {
-		this.measurement = measurement;
+		this.Measurement = measurement;
 		this.value = value;
 	}
-	
-	
 	@Override
 	public String toString() {
-		return "SensorMeasurment [measurement=" + measurement + ", value=" + value + "]";
+		return "SensorMeasurmentDTO [Measurement=" + Measurement + ", value=" + value + "]";
 	}
+	
+
+	
 
 }
