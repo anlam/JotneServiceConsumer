@@ -57,7 +57,7 @@ import no.hiof.tellu.model.GatewayHeartbeat;
 import no.hiof.tellu.model.JotneSensorDataDTO;
 import no.hiof.tellu.model.RuuviMeasurement;
 import no.hiof.tellu.model.SensorDataDTO;
-import no.hiof.tellu.model.SensorMeasurmentDTO;
+import no.hiof.tellu.model.SensorMeasurementDTO;
 
 
 public class NewMQTTClient implements MqttCallback, IMqttActionListener {
@@ -279,15 +279,15 @@ public class NewMQTTClient implements MqttCallback, IMqttActionListener {
 
 			//String dv = String.valueOf(pl.getDeviceID());
 			
-			List<SensorMeasurmentDTO> sensorMeasurments = new ArrayList<SensorMeasurmentDTO>();
-			sensorMeasurments.add(new SensorMeasurmentDTO("ax", String.valueOf(pl.getAx())));
-			sensorMeasurments.add(new SensorMeasurmentDTO("ay", String.valueOf(pl.getAy())));
-			sensorMeasurments.add(new SensorMeasurmentDTO("az", String.valueOf(pl.getAz())));
-			sensorMeasurments.add(new SensorMeasurmentDTO("battery", String.valueOf(pl.getBattery())));
-			sensorMeasurments.add(new SensorMeasurmentDTO("humidity", String.valueOf(pl.getHumidity())));
-			sensorMeasurments.add(new SensorMeasurmentDTO("pressure", String.valueOf(pl.getPressure())));
-			sensorMeasurments.add(new SensorMeasurmentDTO("rssi", String.valueOf(pl.getRssi())));
-			sensorMeasurments.add(new SensorMeasurmentDTO("temperature", String.valueOf(pl.getTemperature())));
+			List<SensorMeasurementDTO> sensorMeasurments = new ArrayList<SensorMeasurementDTO>();
+			sensorMeasurments.add(new SensorMeasurementDTO("ax", String.valueOf(pl.getAx())));
+			sensorMeasurments.add(new SensorMeasurementDTO("ay", String.valueOf(pl.getAy())));
+			sensorMeasurments.add(new SensorMeasurementDTO("az", String.valueOf(pl.getAz())));
+			sensorMeasurments.add(new SensorMeasurementDTO("battery", String.valueOf(pl.getBattery())));
+			sensorMeasurments.add(new SensorMeasurementDTO("humidity", String.valueOf(pl.getHumidity())));
+			sensorMeasurments.add(new SensorMeasurementDTO("pressure", String.valueOf(pl.getPressure())));
+			sensorMeasurments.add(new SensorMeasurementDTO("rssi", String.valueOf(pl.getRssi())));
+			sensorMeasurments.add(new SensorMeasurementDTO("temperature", String.valueOf(pl.getTemperature())));
  			
 			List<SensorDataDTO> sensorData = new ArrayList<SensorDataDTO>();
 			sensorData.add(new SensorDataDTO(String.valueOf(pl.getTimestamp()), sensorMeasurments));

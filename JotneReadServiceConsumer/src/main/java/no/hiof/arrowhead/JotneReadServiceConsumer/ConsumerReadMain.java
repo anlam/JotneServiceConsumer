@@ -22,6 +22,7 @@ import eu.arrowhead.common.dto.shared.OrchestrationResultDTO;
 import eu.arrowhead.common.dto.shared.ServiceInterfaceResponseDTO;
 import eu.arrowhead.common.dto.shared.ServiceQueryFormDTO;
 import eu.arrowhead.common.exception.InvalidParameterException;
+import no.hiof.tellu.model.JotneSensorDataDTO;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {CommonConstants.BASE_PACKAGE, Constants.BASE_PACKAGE})
@@ -80,8 +81,8 @@ public class ConsumerReadMain implements ApplicationRunner {
 			//final String[] queryParamEurHuf = {orchestrationResult.getMetadata().get(Constants.REQUEST_PARAM_META_CURRENCY_RELATION), orchestrationResult.getMetadata().get(Constants.REQUEST_PARAM_META_EUR_HUF_VALUE)};
 			@SuppressWarnings("unchecked")
 	
-			String address = "/Bike/13483027/urn:rdl:Bike:point info";
-			final String exchangeRateEurHuf = arrowheadService.consumeServiceHTTP(String.class, HttpMethod.valueOf(orchestrationResult.getMetadata().get(Constants.HTTP_METHOD)),
+			String address = "/Bike/13483027/urn:rdl:Bike:point list";
+			final JotneSensorDataDTO exchangeRateEurHuf = arrowheadService.consumeServiceHTTP(JotneSensorDataDTO.class, HttpMethod.valueOf(orchestrationResult.getMetadata().get(Constants.HTTP_METHOD)),
 																					orchestrationResult.getProvider().getAddress(), orchestrationResult.getProvider().getPort(), orchestrationResult.getServiceUri() + address,
 																					getInterface(), token, null, new String[0]);
 			logger.info("Get sensor data:");

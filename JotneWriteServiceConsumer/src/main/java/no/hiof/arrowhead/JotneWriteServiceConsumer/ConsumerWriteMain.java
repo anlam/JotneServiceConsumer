@@ -58,12 +58,12 @@ public class ConsumerWriteMain implements ApplicationRunner {
 
 		logger.info("Test Writing Service");
 		String testmsg = "{\r\n" + 
-				"	\"id\": \"13483027\",\r\n" + 
-				"	\"SensorType\": \"RUUVi\",\r\n" + 
+				"	\"id\": \"1383027\",\r\n" + 
+				"	\"SensorType\": \"urn:plcs:rdl:ArrowHead:RUUVITAG\",\r\n" + 
 				"	\"SensorData\": [\r\n" + 
 				"		{\r\n" + 
-				"			\"timestamp\": \"1586944294\",\r\n" + 
-				"			\"SensorMeasurment\": [\r\n" + 
+				"			\"timestamp\": \"1586964294\",\r\n" + 
+				"			\"SensorMeasurement\": [\r\n" + 
 				"				{\r\n" + 
 				"					\"Measurement\": \"ax\",\r\n" + 
 				"					\"value\": \"390\"\r\n" + 
@@ -102,7 +102,7 @@ public class ConsumerWriteMain implements ApplicationRunner {
 				"}";
 
 		// logger.info(marker, message, p0, p1, p2, p3, p4, p5, p6, p7);
-		String address = "/Bike/13483027/urn:rdl:Bike:point info";
+		String address = "/Bike/13483027/urn:rdl:Bike:point list";
 		JotneSensorDataDTO jotneSensorData = Utilities.fromJson(testmsg, JotneSensorDataDTO.class);
 		printOut(jotneSensorData);
 		writeSensorData(jotneSensorData, address);
