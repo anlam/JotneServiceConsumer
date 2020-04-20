@@ -62,7 +62,7 @@ public class ConsumerWriteMain implements ApplicationRunner {
 				"	\"SensorType\": \"urn:plcs:rdl:ArrowHead:RUUVITAG\",\r\n" + 
 				"	\"SensorData\": [\r\n" + 
 				"		{\r\n" + 
-				"			\"timestamp\": \"1586964294\",\r\n" + 
+				"			\"timestamp\": \"1587379050\",\r\n" + 
 				"			\"SensorMeasurement\": [\r\n" + 
 				"				{\r\n" + 
 				"					\"Measurement\": \"ax\",\r\n" + 
@@ -102,10 +102,10 @@ public class ConsumerWriteMain implements ApplicationRunner {
 				"}";
 
 		// logger.info(marker, message, p0, p1, p2, p3, p4, p5, p6, p7);
-		String address = "/Bike/13483027/urn:rdl:Bike:point list";
-		JotneSensorDataDTO jotneSensorData = Utilities.fromJson(testmsg, JotneSensorDataDTO.class);
-		printOut(jotneSensorData);
-		writeSensorData(jotneSensorData, address);
+		//String address = "/Bike/13483027/urn:rdl:Bike:point list";
+		//JotneSensorDataDTO jotneSensorData = Utilities.fromJson(testmsg, JotneSensorDataDTO.class);
+		//printOut(jotneSensorData);
+		//writeSensorData(jotneSensorData, address);
 
 		logger.info("Starting MQTT Client");
 		NewMQTTClient mqtt_client = new NewMQTTClient();
@@ -116,6 +116,7 @@ public class ConsumerWriteMain implements ApplicationRunner {
 
 	public void writeSensorData(JotneSensorDataDTO jotneSensorDataDTO, String serviceURI) {
 
+		logger.info("Writing data");
 		final String token = orchestrationResult.getAuthorizationTokens() == null ? null
 				: orchestrationResult.getAuthorizationTokens().get(getInterface());
 
@@ -131,6 +132,15 @@ public class ConsumerWriteMain implements ApplicationRunner {
 			logger.error("Error while writing sensor data: " + e.getMessage());
 			logger.info("Updating service registry");
 			orchestrationResult = getWriteServiceInfo();
+			
+			logger.info("Re-writing data");
+			final String result = arrowheadService.consumeServiceHTTP(String.class,
+					HttpMethod.valueOf(orchestrationResult.getMetadata().get(Constants.HTTP_METHOD)),
+					orchestrationResult.getProvider().getAddress(), orchestrationResult.getProvider().getPort(),
+					orchestrationResult.getServiceUri() + serviceURI, getInterface(), token, jotneSensorDataDTO,
+					new String[0]);
+			logger.info("Result: " + result);
+			
 		}
 
 	}

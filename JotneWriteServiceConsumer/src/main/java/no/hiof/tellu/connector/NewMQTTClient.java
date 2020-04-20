@@ -255,8 +255,8 @@ public class NewMQTTClient implements MqttCallback, IMqttActionListener {
 
 	public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
 
-		System.out.println(arg0);
-		System.out.println(new String(arg1.getPayload()));
+		
+		//System.out.println(new String(arg1.getPayload()));
 
 		String topic = arg0;
 		String payload = new String(arg1.getPayload());
@@ -267,7 +267,7 @@ public class NewMQTTClient implements MqttCallback, IMqttActionListener {
 		if(item_prefix.startsWith("tellu"))
 			item_prefix = item_prefix.substring(6);
 
-		String serviceURI = "/Bike/13483027/urn:rdl:Bike:point info";
+		String serviceURI = "/Bike/13483027/urn:rdl:Bike:point list";
 
 		String sub_topic = strs[strs.length - 1];
 		Gson gson = new Gson();
@@ -278,6 +278,9 @@ public class NewMQTTClient implements MqttCallback, IMqttActionListener {
 			RuuviMeasurement pl = gson.fromJson(payload, RuuviMeasurement.class);
 
 			//String dv = String.valueOf(pl.getDeviceID());
+			
+			//System.out.println(arg0);
+			System.out.println(new String(arg1.getPayload()));
 			
 			List<SensorMeasurementDTO> sensorMeasurments = new ArrayList<SensorMeasurementDTO>();
 			sensorMeasurments.add(new SensorMeasurementDTO("ax", String.valueOf(pl.getAx())));
