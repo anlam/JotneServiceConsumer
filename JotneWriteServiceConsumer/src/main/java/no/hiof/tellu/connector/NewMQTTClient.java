@@ -48,6 +48,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import com.google.gson.Gson;
 
 import eu.arrowhead.common.dto.shared.OrchestrationResultDTO;
+import no.hiof.arrowhead.JotneServiceConsumerCommon.Constants.SensorType;
 import no.hiof.arrowhead.JotneWriteServiceConsumer.ConsumerWriteMain;
 import no.hiof.tellu.model.GPSAltitude;
 import no.hiof.tellu.model.GPSPosition;
@@ -262,16 +263,24 @@ public class NewMQTTClient implements MqttCallback, IMqttActionListener {
 		String payload = new String(arg1.getPayload());
 
 		String[] strs = topic.split("/");
-		String item_prefix = topic.replaceAll("/", ".");
+		//String item_prefix = topic.replaceAll("/", ".");
 		
-		if(item_prefix.startsWith("tellu"))
-			item_prefix = item_prefix.substring(6);
+		
+		//	item_prefix = item_prefix.substring(6);
 
-		String serviceURI = "/Bike/13483027/urn:rdl:Bike:point list";
+		//String serviceURI = "/Bike/13483027/urn:rdl:Bike:point list";
 
 		String sub_topic = strs[strs.length - 1];
+		
 		Gson gson = new Gson();
+		
+		String gatewayID = "";
+		
+		if(topic.startsWith("tellu"))
+			gatewayID = strs[1];
+		
 
+		
 		
 
 		if (sub_topic.equals("ruuvi_measurement")) {
@@ -295,7 +304,9 @@ public class NewMQTTClient implements MqttCallback, IMqttActionListener {
 			List<SensorDataDTO> sensorData = new ArrayList<SensorDataDTO>();
 			sensorData.add(new SensorDataDTO(String.valueOf(pl.getTimestamp()), sensorMeasurments));
 			JotneSensorDataDTO jotneSensorData = new JotneSensorDataDTO("RUUVi", String.valueOf(pl.getDeviceID()), sensorData);
-			consumerWrite.writeSensorData(jotneSensorData, serviceURI);
+			
+			consumerWrite.writeSensorData(jotneSensorData, SensorType.RUUVI, String.valueOf(pl.getDeviceID()));
+			
 			
 
 
@@ -312,10 +323,44 @@ public class NewMQTTClient implements MqttCallback, IMqttActionListener {
 
 		} else if (sub_topic.equals("gps_position")) {
 			GPSPosition pl = gson.fromJson(payload, GPSPosition.class);
+			
+			System.out.println(new String(arg1.getPayload()));
+			
+			List<SensorMeasurementDTO> sensorMeasurments = new ArrayList<SensorMeasurementDTO>();
+			sensorMeasurments.add(new SensorMeasurementDTO("gpstime_diff", String.valueOf(pl.getGpstime())));
+			sensorMeasurments.add(new SensorMeasurementDTO("latitude", String.valueOf(pl.getLatitude())));
+			sensorMeasurments.add(new SensorMeasurementDTO("latitude_err", String.valueOf(pl.getLatitude_err())));
+			sensorMeasurments.add(new SensorMeasurementDTO("longitude", String.valueOf(pl.getLongitude())));
+			sensorMeasurments.add(new SensorMeasurementDTO("longitude_err", String.valueOf(pl.getLongitude_err())));
+			sensorMeasurments.add(new SensorMeasurementDTO("speed", String.valueOf(pl.getSpeed())));
+			sensorMeasurments.add(new SensorMeasurementDTO("speed_err", String.valueOf(pl.getSpeed_err())));
+			sensorMeasurments.add(new SensorMeasurementDTO("track", String.valueOf(pl.getTrack())));
+			sensorMeasurments.add(new SensorMeasurementDTO("track_err", String.valueOf(pl.getTrack_err())));
+ 			
+			List<SensorDataDTO> sensorData = new ArrayList<SensorDataDTO>();
+			sensorData.add(new SensorDataDTO(String.valueOf(pl.getTimestamp()), sensorMeasurments));
+			JotneSensorDataDTO jotneSensorData = new JotneSensorDataDTO("urn:plcs:rdl:ArrowHead:USB_GPS", gatewayID, sensorData);
+			
+			consumerWrite.writeSensorData(jotneSensorData, SensorType.GPS_POSITION, gatewayID);
 
 
 		} else if (sub_topic.equals("gps_altitude")) {
 			GPSAltitude pl = gson.fromJson(payload, GPSAltitude.class);
+			
+			System.out.println(new String(arg1.getPayload()));
+			
+			List<SensorMeasurementDTO> sensorMeasurments = new ArrayList<SensorMeasurementDTO>();
+			sensorMeasurments.add(new SensorMeasurementDTO("altitude", String.valueOf(pl.getAltitude())));
+			sensorMeasurments.add(new SensorMeasurementDTO("altitude_err", String.valueOf(pl.getAltitude_err())));
+			sensorMeasurments.add(new SensorMeasurementDTO("vspeed", String.valueOf(pl.getVspeed())));
+			sensorMeasurments.add(new SensorMeasurementDTO("vspeed_err", String.valueOf(pl.getVspeed_err())));
+
+ 			
+			List<SensorDataDTO> sensorData = new ArrayList<SensorDataDTO>();
+			sensorData.add(new SensorDataDTO(String.valueOf(pl.getTimestamp()), sensorMeasurments));
+			JotneSensorDataDTO jotneSensorData = new JotneSensorDataDTO("urn:plcs:rdl:ArrowHead:USB_GPS", gatewayID, sensorData);
+			
+			consumerWrite.writeSensorData(jotneSensorData, SensorType.GPS_ALTITUDE, gatewayID);
 
 
 		} else {

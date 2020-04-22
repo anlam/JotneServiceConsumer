@@ -22,6 +22,7 @@ import eu.arrowhead.common.dto.shared.OrchestrationResultDTO;
 import eu.arrowhead.common.dto.shared.ServiceInterfaceResponseDTO;
 import eu.arrowhead.common.dto.shared.ServiceQueryFormDTO;
 import eu.arrowhead.common.exception.InvalidParameterException;
+import no.hiof.arrowhead.JotneServiceConsumerCommon.Constants;
 import no.hiof.tellu.model.JotneSensorDataDTO;
 
 @SpringBootApplication

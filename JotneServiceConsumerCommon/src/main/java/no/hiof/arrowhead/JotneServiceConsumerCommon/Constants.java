@@ -1,4 +1,4 @@
-package no.hiof.arrowhead.JotneWriteServiceConsumer;
+package no.hiof.arrowhead.JotneServiceConsumerCommon;
 
 public class Constants {
 	
@@ -14,6 +14,8 @@ public class Constants {
 	public static final String TRUEPLM_GET_SENSOR_SERVICE_DEFINITION = "trueplm-get-sensor-data-sevice";
 	
 	public static final String TRUEPLM_ADD_SENSOR_SERVICE_DEFINITION = "trueplm-add-sensor-data-sevice";
+	
+	public static enum SensorType {RUUVI, GPS_ALTITUDE, GPS_POSITION};
 	
 	
 	//=================================================================================================

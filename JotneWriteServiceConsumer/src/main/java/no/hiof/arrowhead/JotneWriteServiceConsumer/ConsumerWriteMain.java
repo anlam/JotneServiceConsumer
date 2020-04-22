@@ -22,6 +22,8 @@ import eu.arrowhead.common.dto.shared.OrchestrationResultDTO;
 import eu.arrowhead.common.dto.shared.ServiceInterfaceResponseDTO;
 import eu.arrowhead.common.dto.shared.ServiceQueryFormDTO;
 import eu.arrowhead.common.exception.InvalidParameterException;
+import no.hiof.arrowhead.JotneServiceConsumerCommon.Constants;
+import no.hiof.arrowhead.JotneServiceConsumerCommon.Constants.SensorType;
 import no.hiof.tellu.connector.NewMQTTClient;
 import no.hiof.tellu.model.JotneSensorDataDTO;
 
@@ -56,66 +58,34 @@ public class ConsumerWriteMain implements ApplicationRunner {
 
 		orchestrationResult = getWriteServiceInfo();
 
-		logger.info("Test Writing Service");
-		String testmsg = "{\r\n" + 
-				"	\"id\": \"1383027\",\r\n" + 
-				"	\"SensorType\": \"urn:plcs:rdl:ArrowHead:RUUVITAG\",\r\n" + 
-				"	\"SensorData\": [\r\n" + 
-				"		{\r\n" + 
-				"			\"timestamp\": \"1587379050\",\r\n" + 
-				"			\"SensorMeasurement\": [\r\n" + 
-				"				{\r\n" + 
-				"					\"Measurement\": \"ax\",\r\n" + 
-				"					\"value\": \"390\"\r\n" + 
-				"				},\r\n" + 
-				"				{\r\n" + 
-				"					\"Measurement\": \"ay\",\r\n" + 
-				"					\"value\": \"-935\"\r\n" + 
-				"				},\r\n" + 
-				"				{\r\n" + 
-				"					\"Measurement\": \"az\",\r\n" + 
-				"					\"value\": \"-29\"\r\n" + 
-				"				},\r\n" + 
-				"				{\r\n" + 
-				"					\"Measurement\": \"battery\",\r\n" + 
-				"					\"value\": \"2977\"\r\n" + 
-				"				},\r\n" + 
-				"				{\r\n" + 
-				"					\"Measurement\": \"humidity\",\r\n" + 
-				"					\"value\": \"48\"\r\n" + 
-				"				},\r\n" + 
-				"				{\r\n" + 
-				"					\"Measurement\": \"pressure\",\r\n" + 
-				"					\"value\": \"99555\"\r\n" + 
-				"				},\r\n" + 
-				"				{\r\n" + 
-				"					\"Measurement\": \"rssi\",\r\n" + 
-				"					\"value\": \"-93\"\r\n" + 
-				"				},\r\n" + 
-				"				{\r\n" + 
-				"					\"Measurement\": \"temperature\",\r\n" + 
-				"					\"value\": \"1420\"\r\n" + 
-				"				}\r\n" + 
-				"			]\r\n" + 
-				"		}\r\n" + 
-				"	]\r\n" + 
-				"}";
-
-		// logger.info(marker, message, p0, p1, p2, p3, p4, p5, p6, p7);
-		//String address = "/Bike/13483027/urn:rdl:Bike:point list";
-		//JotneSensorDataDTO jotneSensorData = Utilities.fromJson(testmsg, JotneSensorDataDTO.class);
-		//printOut(jotneSensorData);
-		//writeSensorData(jotneSensorData, address);
-
 		logger.info("Starting MQTT Client");
 		NewMQTTClient mqtt_client = new NewMQTTClient();
 		mqtt_client.setConsumerWrite(this);
-		// mqtt_client.setOrchestrationResult(orchestrationResult);
 		mqtt_client.initialize();
 	}
 
-	public void writeSensorData(JotneSensorDataDTO jotneSensorDataDTO, String serviceURI) {
-
+	public void writeSensorData(JotneSensorDataDTO jotneSensorDataDTO, SensorType sensorType, String sensorID) {
+		
+		
+		String proj = "Bike";
+		String sn = sensorID.trim();
+		String prop = "urn:rdl:Bike:point list";
+		
+		if(sensorType == SensorType.GPS_ALTITUDE)
+			prop = "urn:rdl:Bike:altitude list"; 
+		else if(sensorType == SensorType.GPS_POSITION)
+			prop = "urn:rdl:Bike:position list";
+		
+		if(sensorType != SensorType.RUUVI)
+			if(sn.equals("P4GW1002"))
+			{
+				sn = "1180322-02701"; 
+				jotneSensorDataDTO.setId(sn);
+			}
+		
+		
+		String serviceURI = "/" + proj + "/" + sn + "/" + prop;
+			
 		logger.info("Writing data");
 		final String token = orchestrationResult.getAuthorizationTokens() == null ? null
 				: orchestrationResult.getAuthorizationTokens().get(getInterface());
