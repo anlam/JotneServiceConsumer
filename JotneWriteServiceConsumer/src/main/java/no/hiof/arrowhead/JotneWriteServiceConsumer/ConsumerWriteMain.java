@@ -57,11 +57,16 @@ public class ConsumerWriteMain implements ApplicationRunner {
 	public void run(final ApplicationArguments args) throws Exception {
 
 		orchestrationResult = getWriteServiceInfo();
+		
+		if(orchestrationResult != null)
+		{
+			logger.info("Starting MQTT Client");
+			NewMQTTClient mqtt_client = new NewMQTTClient();
+			mqtt_client.setConsumerWrite(this);
+			mqtt_client.initialize();
+		}
 
-		logger.info("Starting MQTT Client");
-		NewMQTTClient mqtt_client = new NewMQTTClient();
-		mqtt_client.setConsumerWrite(this);
-		mqtt_client.initialize();
+		
 	}
 
 	public void writeSensorData(JotneSensorDataDTO jotneSensorDataDTO, SensorType sensorType, String sensorID) {
