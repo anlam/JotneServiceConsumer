@@ -320,7 +320,9 @@ public class NewMQTTClient implements MqttCallback, IMqttActionListener {
 					JotneSensorDataDTO jotneSensorData = new JotneSensorDataDTO("RUUVi",
 							String.valueOf(pl.getDeviceID()), sensorData);
 
-					consumerWrite.writeSensorData(jotneSensorData, SensorType.RUUVI, String.valueOf(pl.getDeviceID()));
+					
+					while(!consumerWrite.writeSensorData(jotneSensorData, SensorType.RUUVI, String.valueOf(pl.getDeviceID())))
+						Logger.getLogger(NewMQTTClient.class.getName()).log(Level.INFO, "Re-writing data");
 
 				} else if (sub_topic.equals("gateway_heartbeat")) {
 					GatewayHeartbeat pl = gson.fromJson(payload, GatewayHeartbeat.class);
@@ -354,7 +356,8 @@ public class NewMQTTClient implements MqttCallback, IMqttActionListener {
 					JotneSensorDataDTO jotneSensorData = new JotneSensorDataDTO("urn:plcs:rdl:ArrowHead:USB_GPS",
 							gatewayID, sensorData);
 
-					consumerWrite.writeSensorData(jotneSensorData, SensorType.GPS_POSITION, gatewayID);
+					while(!consumerWrite.writeSensorData(jotneSensorData, SensorType.GPS_POSITION, gatewayID))
+						Logger.getLogger(NewMQTTClient.class.getName()).log(Level.INFO, "Re-writing data");
 
 				} else if (sub_topic.equals("gps_altitude")) {
 					GPSAltitude pl = gson.fromJson(payload, GPSAltitude.class);
@@ -373,7 +376,8 @@ public class NewMQTTClient implements MqttCallback, IMqttActionListener {
 					JotneSensorDataDTO jotneSensorData = new JotneSensorDataDTO("urn:plcs:rdl:ArrowHead:USB_GPS",
 							gatewayID, sensorData);
 
-					consumerWrite.writeSensorData(jotneSensorData, SensorType.GPS_ALTITUDE, gatewayID);
+					while(!consumerWrite.writeSensorData(jotneSensorData, SensorType.GPS_ALTITUDE, gatewayID))
+						Logger.getLogger(NewMQTTClient.class.getName()).log(Level.INFO, "Re-writing data");;
 
 				} else {
 					System.err.println("Unknown topic: " + topic);

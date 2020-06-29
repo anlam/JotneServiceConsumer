@@ -69,7 +69,7 @@ public class ConsumerWriteMain implements ApplicationRunner {
 		
 	}
 
-	public void writeSensorData(JotneSensorDataDTO jotneSensorDataDTO, SensorType sensorType, String sensorID) {
+	public boolean writeSensorData(JotneSensorDataDTO jotneSensorDataDTO, SensorType sensorType, String sensorID) {
 		
 		
 		String proj = "Bike";
@@ -108,15 +108,18 @@ public class ConsumerWriteMain implements ApplicationRunner {
 			logger.info("Updating service registry");
 			orchestrationResult = getWriteServiceInfo();
 			
-			logger.info("Re-writing data");
-			final String result = arrowheadService.consumeServiceHTTP(String.class,
-					HttpMethod.valueOf(orchestrationResult.getMetadata().get(Constants.HTTP_METHOD)),
-					orchestrationResult.getProvider().getAddress(), orchestrationResult.getProvider().getPort(),
-					orchestrationResult.getServiceUri() + serviceURI, getInterface(), token, jotneSensorDataDTO,
-					new String[0]);
-			logger.info("Result: " + result);
-			
+			/*
+			 * logger.info("Re-writing data"); final String result =
+			 * arrowheadService.consumeServiceHTTP(String.class,
+			 * HttpMethod.valueOf(orchestrationResult.getMetadata().get(Constants.
+			 * HTTP_METHOD)), orchestrationResult.getProvider().getAddress(),
+			 * orchestrationResult.getProvider().getPort(),
+			 * orchestrationResult.getServiceUri() + serviceURI, getInterface(), token,
+			 * jotneSensorDataDTO, new String[0]); logger.info("Result: " + result);
+			 */
+			return false;
 		}
+		return true;
 
 	}
 
